@@ -1,4 +1,4 @@
-package com.acpi.stock.product;
+package fr.acpi.stock.product;
 
 public class Product implements IProduct {
 	protected String _name;

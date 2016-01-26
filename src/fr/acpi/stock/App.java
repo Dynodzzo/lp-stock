@@ -1,4 +1,4 @@
-package com.acpi.stock;
+package fr.acpi.stock;
 
 public class App {
 

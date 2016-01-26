@@ -1,4 +1,4 @@
-package com.acpi.stock.product;
+package fr.acpi.stock.product;
 
 public interface IProduct {
 	boolean add(int amount);
