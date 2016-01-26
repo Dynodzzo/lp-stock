@@ -2,13 +2,13 @@ package fr.acpi.stock.product;
 
 public class Product implements IProduct {
 	protected String _name;
-	protected double _unitPriceEC;
+	protected double _unitPriceET;
 	protected int _amount;
 	public static double VATRate = .2;
 
-	public Product(String name, double unitPriceEC, int amount) {
+	public Product(String name, double unitPriceET, int amount) {
 		this._name = name;
-		this._unitPriceEC = unitPriceEC;
+		this._unitPriceET = unitPriceET;
 		this._amount = amount;
 	}
 
@@ -48,12 +48,12 @@ public class Product implements IProduct {
 
 	@Override
 	public double unitPriceET() {
-		return this._unitPriceEC;
+		return this._unitPriceET;
 	}
 
 	@Override
 	public double unitPriceIT() {
-		return this._unitPriceEC * (1 + Product.VATRate);
+		return this._unitPriceET * (1 + Product.VATRate);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class Product implements IProduct {
 
 		productString.append(this._name);
 		productString.append(" | prix HT : ");
-		productString.append(this._unitPriceEC);
+		productString.append(this._unitPriceET);
 		productString.append("€ | prix TTC : ");
 		productString.append(this.unitPriceIT());
 		productString.append("€ | quantité en stock : ");
