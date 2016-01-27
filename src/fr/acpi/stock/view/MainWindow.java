@@ -1,5 +1,7 @@
 package fr.acpi.stock.view;
 
+import fr.acpi.stock.AppData;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -62,11 +64,11 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String[] names = {"Mars", "Treets", "Twix", "M&m's"};
+		String[] names = AppData.Catalog.productsNames();
 		Object source = e.getSource();
 
 		if (source == this.btnDisplay) {
-			new DisplayWindow("test");
+			new DisplayWindow(AppData.Catalog.toString());
 			System.out.println("Display stock");
 		}
 		else if (source == this.btnNew) {
@@ -79,11 +81,11 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		}
 		else if (source == this.btnPurchase) {
 			new PurchaseWindow(names);
-			System.out.println("Acheter un produit");
+			System.out.println("Purchase a product");
 		}
 		else if (source == this.btnSale) {
 			new SaleWindow(names);
-			System.out.println("Vendre un produit");
+			System.out.println("Sell a product");
 		}
 		else if (source == this.btnExit) {
 			System.out.println("Exit");
