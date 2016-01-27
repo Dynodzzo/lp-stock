@@ -114,6 +114,11 @@ public class Catalog implements ICatalog {
 	}
 
 	@Override
+	public IProduct product(String name) {
+		return this._products.get(this.indexOf(name));
+	}
+
+	@Override
 	public void clear() {
 		this._products.clear();
 	}

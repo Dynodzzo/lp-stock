@@ -11,11 +11,13 @@ public class OracleProductDAO implements IProductDAO {
 	protected String _selectProductRequest = "SELECT name, unitPriceHT, stockAmount FROM Products WHERE name = ?";
 	protected String _selectProductsRequest = "SELECT name, unitPriceHT, stockAmount FROM Products";
 	protected String _createProductRequest = "{call addProduct(?, ?, ?)}";
+	protected String _updateProductRequest = "UPDATE Products SET name = ?, unitPriceHT = ?, stockAmount = ? WHERE name = ?";
 	protected String _deleteProductRequest = "DELETE FROM Products WHERE name = ?";
 
 	protected PreparedStatement _selectProductStatement;
 	protected PreparedStatement _selectProductsStatement;
 	protected CallableStatement _createProductStatement;
+	protected PreparedStatement _updateProductStatement;
 	protected PreparedStatement _deleteProductStatement;
 
 	protected ResultSet _productSet;
@@ -34,6 +36,7 @@ public class OracleProductDAO implements IProductDAO {
 			this._selectProductStatement = this._connexion.prepareStatement(this._selectProductRequest);
 			this._selectProductsStatement = this._connexion.prepareStatement(this._selectProductsRequest);
 			this._createProductStatement = this._connexion.prepareCall(this._createProductRequest);
+			this._updateProductStatement = this._connexion.prepareStatement(this._updateProductRequest);
 			this._deleteProductStatement = this._connexion.prepareStatement(this._deleteProductRequest);
 		}
 		catch (SQLException e) {
@@ -115,7 +118,24 @@ public class OracleProductDAO implements IProductDAO {
 
 	@Override
 	public boolean update(IProduct product) {
-		return false;
+		boolean updated = false;
+
+		try {
+			this._updateProductStatement.setString(1, product.name());
+			this._updateProductStatement.setDouble(2, product.unitPriceET());
+			this._updateProductStatement.setInt(3, product.amount());
+			this._updateProductStatement.setString(4, product.name());
+			int rowsUpdated = this._updateProductStatement.executeUpdate();
+
+			if (rowsUpdated == 1) {
+				updated = true;
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return updated;
 	}
 
 	@Override

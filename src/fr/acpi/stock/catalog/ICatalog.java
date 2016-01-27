@@ -13,5 +13,6 @@ public interface ICatalog {
 	boolean sellStock(String productName, int amountSold);
 	String[] productsNames();
 	double totalAmountIT();
+	IProduct product(String name);
 	void clear();
 }
