@@ -1,6 +1,7 @@
 package fr.acpi.stock.view;
 
 import fr.acpi.stock.AppData;
+import fr.acpi.stock.product.ProductController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,9 +18,11 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	private JButton btnSale;
 	private JButton btnExit;
 
-	// TODO add controllers
+	ProductController _productCtrl;
 
-	public MainWindow() {
+	public MainWindow(ProductController productCtrl) {
+		this._productCtrl = productCtrl;
+
 		this.setTitle("Gestion de stock");
 		this.setBounds(500, 500, 320, 250);
 		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
@@ -72,11 +75,11 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 			System.out.println("Display stock");
 		}
 		else if (source == this.btnNew) {
-			new NewWindow();
+			new NewWindow(this._productCtrl);
 			System.out.println("New product");
 		}
 		else if (source == this.btnDelete) {
-			new DeleteWindow(names);
+			new DeleteWindow(names, this._productCtrl);
 			System.out.println("Delete product");
 		}
 		else if (source == this.btnPurchase) {

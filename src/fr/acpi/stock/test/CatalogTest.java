@@ -256,21 +256,21 @@ public class CatalogTest {
 	public void testRemoveExistingProduct() {
 		this.catalog.addProduct("Mars", 10, 2);
 		this.catalog.addProduct("Treets", 10, 6);
-		Assert.assertTrue("Suppression d'un produit existant", this.catalog.removeProduct("Mars"));
+		Assert.assertTrue("Suppression d'un produit existant", this.catalog.deleteProduct("Mars"));
 	}
 
 	@Test
 	public void testRemoveNonExistingProduct() {
 		this.catalog.addProduct("Mars", 10, 2);
 		this.catalog.addProduct("Treets", 10, 6);
-		Assert.assertFalse("Suppression d'un produit existant", this.catalog.removeProduct("Twix"));
+		Assert.assertFalse("Suppression d'un produit existant", this.catalog.deleteProduct("Twix"));
 	}
 
 	@Test
 	public void testRemoveNullName() {
 		this.catalog.addProduct("Mars", 10, 2);
 		this.catalog.addProduct("Treets", 10, 6);
-		Assert.assertFalse("Suppression d'un produit existant", this.catalog.removeProduct(null));
+		Assert.assertFalse("Suppression d'un produit existant", this.catalog.deleteProduct(null));
 	}
 
 	@Test

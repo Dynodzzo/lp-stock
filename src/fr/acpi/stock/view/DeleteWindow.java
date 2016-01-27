@@ -1,5 +1,7 @@
 package fr.acpi.stock.view;
 
+import fr.acpi.stock.product.ProductController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,7 +11,11 @@ public class DeleteWindow extends JFrame implements ActionListener {
 	private JButton btnSubmit;
 	private JComboBox<String> cbxProducts;
 
-	public DeleteWindow(String[] productsNames) {
+	private ProductController _productCtrl;
+
+	public DeleteWindow(String[] productsNames, ProductController productCtrl) {
+		this._productCtrl = productCtrl;
+
 		this.setTitle("Supprimer un produit");
 		this.setBounds(500, 500, 200, 105);
 
@@ -35,6 +41,7 @@ public class DeleteWindow extends JFrame implements ActionListener {
 
 		if (source == this.btnSubmit) {
 			System.out.println("Submit delete product");
+			this._productCtrl.deleteProduct(this.cbxProducts.getSelectedItem().toString());
 			this.dispose();
 		}
 	}

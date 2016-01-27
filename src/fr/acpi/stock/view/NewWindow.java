@@ -1,5 +1,9 @@
 package fr.acpi.stock.view;
 
+import fr.acpi.stock.product.IProduct;
+import fr.acpi.stock.product.Product;
+import fr.acpi.stock.product.ProductController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +15,11 @@ public class NewWindow extends JFrame implements ActionListener {
 	private JTextField txtAmount;
 	private JButton btnSubmit;
 
-	public NewWindow() {
+	private ProductController _productCtrl;
+
+	public NewWindow(ProductController productCtrl) {
+		this._productCtrl = productCtrl;
+
 		this.setTitle("Créer un produit");
 		this.setBounds(500, 500, 200, 250);
 
@@ -23,8 +31,6 @@ public class NewWindow extends JFrame implements ActionListener {
 		this.txtUnitPriceET = new JTextField(15);
 		this.txtAmount = new JTextField(15);
 		this.btnSubmit = new JButton("Valider");
-
-		this.btnSubmit.addActionListener(this);
 
 		Container contentPane = this.getContentPane();
 		contentPane.setLayout(new FlowLayout());
@@ -46,7 +52,12 @@ public class NewWindow extends JFrame implements ActionListener {
 		Object source = e.getSource();
 
 		if (source == this.btnSubmit) {
-			System.out.println("Submit new product");
+			System.out.println("Submit new product1");
+			String name = this.txtName.getText();
+			double unitPriceET = Double.parseDouble(this.txtUnitPriceET.getText());
+			int amount = Integer.parseInt(this.txtAmount.getText());
+			IProduct product = new Product(name, unitPriceET, amount);
+			this._productCtrl.createProduct(product);
 			this.dispose();
 		}
 	}

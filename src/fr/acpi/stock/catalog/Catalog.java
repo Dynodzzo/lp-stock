@@ -52,7 +52,7 @@ public class Catalog implements ICatalog {
 	}
 
 	@Override
-	public boolean removeProduct(String name) {
+	public boolean deleteProduct(String name) {
 		boolean removed = false;
 
 		if (this.exists(name)) {

@@ -1,6 +1,6 @@
 package fr.acpi.stock.product;
 
-import fr.acpi.stock.view.DBData;
+import fr.acpi.stock.DBData;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,9 +10,13 @@ public class OracleProductDAO implements IProductDAO {
 	protected Connection _connexion;
 	protected String _selectProductRequest = "SELECT name, unitPriceHT, stockAmount FROM Products WHERE name = ?";
 	protected String _selectProductsRequest = "SELECT name, unitPriceHT, stockAmount FROM Products";
+	protected String _createProductRequest = "{call addProduct(?, ?, ?)}";
+	protected String _deleteProductRequest = "DELETE FROM Products WHERE name = ?";
 
 	protected PreparedStatement _selectProductStatement;
 	protected PreparedStatement _selectProductsStatement;
+	protected CallableStatement _createProductStatement;
+	protected PreparedStatement _deleteProductStatement;
 
 	protected ResultSet _productSet;
 
@@ -29,6 +33,8 @@ public class OracleProductDAO implements IProductDAO {
 			this.connect();
 			this._selectProductStatement = this._connexion.prepareStatement(this._selectProductRequest);
 			this._selectProductsStatement = this._connexion.prepareStatement(this._selectProductsRequest);
+			this._createProductStatement = this._connexion.prepareCall(this._createProductRequest);
+			this._deleteProductStatement = this._connexion.prepareStatement(this._deleteProductRequest);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -92,7 +98,19 @@ public class OracleProductDAO implements IProductDAO {
 
 	@Override
 	public boolean create(IProduct product) {
-		return false;
+		boolean created = false;
+
+		try {
+			this._createProductStatement.setString(1, product.name());
+			this._createProductStatement.setDouble(2, product.unitPriceET());
+			this._createProductStatement.setInt(3, product.amount());
+			created = this._createProductStatement.execute();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return created;
 	}
 
 	@Override
@@ -102,6 +120,20 @@ public class OracleProductDAO implements IProductDAO {
 
 	@Override
 	public boolean delete(String name) {
-		return false;
+		boolean deleted = false;
+
+		try {
+			this._deleteProductStatement.setString(1, name);
+			int rowsUpdated = this._deleteProductStatement.executeUpdate();
+
+			if (rowsUpdated == 1) {
+				deleted = true;
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return deleted;
 	}
 }
