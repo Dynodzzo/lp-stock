@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OracleDAO implements IProductDAO {
+public class OracleProductDAO implements IProductDAO {
 	protected Connection _connexion;
 	protected String _selectProductRequest = "SELECT name, unitPriceHT, stockAmount FROM Products WHERE name = ?";
 	protected String _selectProductsRequest = "SELECT name, unitPriceHT, stockAmount FROM Products";
@@ -16,7 +16,7 @@ public class OracleDAO implements IProductDAO {
 
 	protected ResultSet _productSet;
 
-	public OracleDAO() {
+	public OracleProductDAO() {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 		}
