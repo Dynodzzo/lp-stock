@@ -1,5 +1,7 @@
 package fr.acpi.stock.view;
 
+import fr.acpi.stock.product.SalesController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +12,11 @@ public class SaleWindow extends JFrame implements ActionListener {
 	private JTextField txtAmount;
 	private JComboBox<String> cbxProducts;
 
-	public SaleWindow(String[] productsNames) {
+	private SalesController _salesCtrl;
+
+	public SaleWindow(String[] productsNames, SalesController salesCtrl) {
+		this._salesCtrl = salesCtrl;
+
 		this.setTitle("Vendre un produit");
 		this.setBounds(500, 500, 200, 125);
 
@@ -41,6 +47,9 @@ public class SaleWindow extends JFrame implements ActionListener {
 
 		if (source == this.btnSubmit) {
 			System.out.println("Submit sold product");
+			String name = this.cbxProducts.getSelectedItem().toString();
+			int amount = Integer.parseInt(this.txtAmount.getText());
+			this._salesCtrl.sellProduct(name, amount);
 			this.dispose();
 		}
 	}
