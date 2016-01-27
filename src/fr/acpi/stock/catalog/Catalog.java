@@ -3,6 +3,7 @@ package fr.acpi.stock.catalog;
 import fr.acpi.stock.product.IProduct;
 import fr.acpi.stock.product.Product;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,9 +40,11 @@ public class Catalog implements ICatalog {
 	public int addProducts(List<IProduct> products) {
 		int addedProducts = 0;
 
-		for (IProduct product : products) {
-			if (this.addProduct(product)) {
-				addedProducts++;
+		if (products != null) {
+			for (IProduct product : products) {
+				if (this.addProduct(product)) {
+					addedProducts++;
+				}
 			}
 		}
 
@@ -87,7 +90,7 @@ public class Catalog implements ICatalog {
 	}
 
 	@Override
-	public String[] getProductsNames() {
+	public String[] productsNames() {
 		String[] productNames = new String[this._products.size()];
 
 		for (int i = 0; i < this._products.size(); i++) {
@@ -100,7 +103,7 @@ public class Catalog implements ICatalog {
 	}
 
 	@Override
-	public double getTotalAmountIT() {
+	public double totalAmountIT() {
 		double totalAmount = 0;
 
 		for (IProduct product : this._products) {
@@ -117,7 +120,25 @@ public class Catalog implements ICatalog {
 
 	@Override
 	public String toString() {
-		return "";
+		DecimalFormat twoDigitsFormat = new DecimalFormat("0.00 €");
+		StringBuilder str = new StringBuilder();
+
+		for (IProduct product : this._products) {
+			str.append(product.name());
+			str.append(" - prix HT : ");
+			str.append(twoDigitsFormat.format(product.unitPriceET()));
+			str.append(" - prix TTC : ");
+			str.append(twoDigitsFormat.format(product.unitPriceIT()));
+			str.append(" - quantité en stock : ");
+			str.append(product.amount());
+			str.append("\n");
+		}
+
+		str.append("\n");
+		str.append("Montant total TTC du stock : ");
+		str.append(twoDigitsFormat.format(this.totalAmountIT()));
+
+		return str.toString();
 	}
 
 	protected boolean exists(String name) {

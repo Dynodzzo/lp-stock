@@ -11,7 +11,7 @@ public interface ICatalog {
 	boolean removeProduct(String name);
 	boolean buyStock(String productName, int amountBought);
 	boolean sellStock(String productName, int amountSold);
-	String[] getProductsNames();
-	double getTotalAmountIT();
+	String[] productsNames();
+	double totalAmountIT();
 	void clear();
 }
