@@ -65,6 +65,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		Object source = e.getSource();
 
 		if (source == this.btnDisplay) {
+			new DisplayWindow("test");
 			System.out.println("Display stock");
 		}
 		else if (source == this.btnNew) {
