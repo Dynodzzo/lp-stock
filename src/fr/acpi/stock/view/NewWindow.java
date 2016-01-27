@@ -15,7 +15,7 @@ public class NewWindow extends JFrame implements ActionListener {
 		this.setTitle("Créer un produit");
 		this.setBounds(500, 500, 200, 250);
 
-		JLabel lblName = new JLabel("Nom produit");
+		JLabel lblName = new JLabel("Nom du produit");
 		JLabel lblUnitPriceET = new JLabel("Prix hors taxe");
 		JLabel lblAmount = new JLabel("Quantité en stock");
 
@@ -36,6 +36,9 @@ public class NewWindow extends JFrame implements ActionListener {
 		contentPane.add(lblAmount);
 		contentPane.add(this.txtAmount);
 		contentPane.add(this.btnSubmit);
+
+		this.btnSubmit.addActionListener(this);
+		this.setVisible(true);
 	}
 
 	@Override

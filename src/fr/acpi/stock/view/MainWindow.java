@@ -62,6 +62,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		String[] names = {"Mars", "Treets", "Twix", "M&m's"};
 		Object source = e.getSource();
 
 		if (source == this.btnDisplay) {
@@ -69,15 +70,19 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 			System.out.println("Display stock");
 		}
 		else if (source == this.btnNew) {
+			new NewWindow();
 			System.out.println("New product");
 		}
 		else if (source == this.btnDelete) {
+			new DeleteWindow(names);
 			System.out.println("Delete product");
 		}
 		else if (source == this.btnPurchase) {
+			new PurchaseWindow(names);
 			System.out.println("Acheter un produit");
 		}
 		else if (source == this.btnSale) {
+			new SaleWindow(names);
 			System.out.println("Vendre un produit");
 		}
 		else if (source == this.btnExit) {
