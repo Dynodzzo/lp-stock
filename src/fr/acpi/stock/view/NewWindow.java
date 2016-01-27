@@ -52,7 +52,8 @@ public class NewWindow extends JFrame implements ActionListener {
 		Object source = e.getSource();
 
 		if (source == this.btnSubmit) {
-			System.out.println("Submit new product1");
+			// TODO check inputs and display alert
+			System.out.println("Submit new product");
 			String name = this.txtName.getText();
 			double unitPriceET = Double.parseDouble(this.txtUnitPriceET.getText());
 			int amount = Integer.parseInt(this.txtAmount.getText());
