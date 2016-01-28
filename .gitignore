@@ -1,4 +1,4 @@
 .idea
 *.iml
 out
-src/fr/acpi/stock/view/DBData.java
+src/fr/acpi/stock/DBData.java
