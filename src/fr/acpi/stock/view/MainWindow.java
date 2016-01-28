@@ -3,6 +3,7 @@ package fr.acpi.stock.view;
 import fr.acpi.stock.AppData;
 import fr.acpi.stock.product.ProductController;
 import fr.acpi.stock.product.SalesController;
+import fr.acpi.stock.product.StockController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,10 +22,12 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
 	ProductController _productCtrl;
 	SalesController _salesCtrl;
+	StockController _stockCtrl;
 
-	public MainWindow(ProductController productCtrl, SalesController salesCtrl) {
+	public MainWindow(ProductController productCtrl, SalesController salesCtrl, StockController stockCtrl) {
 		this._productCtrl = productCtrl;
 		this._salesCtrl = salesCtrl;
+		this._stockCtrl = stockCtrl;
 
 		this.setTitle("Gestion de stock");
 		this.setBounds(500, 500, 320, 250);
@@ -74,7 +77,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		Object source = e.getSource();
 
 		if (source == this.btnDisplay) {
-			new DisplayWindow(AppData.Catalog.toString());
+			new DisplayWindow(this._stockCtrl);
 			System.out.println("Display stock");
 		}
 		else if (source == this.btnNew) {

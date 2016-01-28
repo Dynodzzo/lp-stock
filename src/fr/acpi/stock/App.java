@@ -12,6 +12,7 @@ public class App {
 		AppData.Catalog.addProducts(productDAO.getAll());
 		ProductController productCtrl = new ProductController(AppData.Catalog, productDAO);
 		SalesController salesCtrl = new SalesController(AppData.Catalog, productDAO);
-		JFrame mainWindow = new MainWindow(productCtrl, salesCtrl);
+		StockController stockCtrl = new StockController(AppData.Catalog, productDAO);
+		JFrame mainWindow = new MainWindow(productCtrl, salesCtrl, stockCtrl);
     }
 }

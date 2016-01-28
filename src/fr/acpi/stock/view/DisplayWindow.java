@@ -1,5 +1,7 @@
 package fr.acpi.stock.view;
 
+import fr.acpi.stock.product.StockController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,13 +10,17 @@ import java.awt.event.ActionListener;
 public class DisplayWindow extends JFrame implements ActionListener {
 	private JButton btnLeave;
 
-	public DisplayWindow(String stockText) {
+	private StockController _stockCtrl;
+
+	public DisplayWindow(StockController stockCtrl) {
+		this._stockCtrl = stockCtrl;
+
 		this.setTitle("Etat du stock");
 		this.setBounds(500, 500, 450, 250);
 
 		JPanel pnlTop = new JPanel();
 		JPanel pnlBottom = new JPanel();
-		JTextArea txaStock = new JTextArea(stockText, 10, 5);
+		JTextArea txaStock = new JTextArea(this._stockCtrl.getStock(), 10, 5);
 
 		Container contentPane = this.getContentPane();
 		contentPane.setLayout(new BorderLayout());
