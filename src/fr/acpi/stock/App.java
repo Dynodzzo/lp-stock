@@ -6,7 +6,6 @@ import fr.acpi.stock.product.controller.StockController;
 import fr.acpi.stock.product.dal.IProductDAO;
 import fr.acpi.stock.product.dal.ProductDAOFactory;
 import fr.acpi.stock.product.dal.ProductDAOType;
-import fr.acpi.stock.product.dal.XMLProductDAO;
 import fr.acpi.stock.view.MainWindow;
 
 import javax.swing.*;
