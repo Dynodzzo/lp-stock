@@ -1,6 +1,10 @@
 package fr.acpi.stock;
 
-import fr.acpi.stock.product.*;
+import fr.acpi.stock.product.controller.ProductController;
+import fr.acpi.stock.product.controller.SalesController;
+import fr.acpi.stock.product.controller.StockController;
+import fr.acpi.stock.product.dal.IProductDAO;
+import fr.acpi.stock.product.dal.XMLProductDAO;
 import fr.acpi.stock.view.MainWindow;
 
 import javax.swing.*;

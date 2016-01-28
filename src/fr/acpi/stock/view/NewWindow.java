@@ -2,7 +2,7 @@ package fr.acpi.stock.view;
 
 import fr.acpi.stock.product.IProduct;
 import fr.acpi.stock.product.Product;
-import fr.acpi.stock.product.ProductController;
+import fr.acpi.stock.product.controller.ProductController;
 
 import javax.swing.*;
 import java.awt.*;

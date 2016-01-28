@@ -1,7 +1,9 @@
-package fr.acpi.stock.product;
+package fr.acpi.stock.product.controller;
 
 import fr.acpi.stock.AppData;
 import fr.acpi.stock.catalog.ICatalog;
+import fr.acpi.stock.product.controller.IProductController;
+import fr.acpi.stock.product.dal.IProductDAO;
 
 public class StockController implements IProductController {
 	protected ICatalog _catalog;

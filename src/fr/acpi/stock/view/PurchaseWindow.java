@@ -1,6 +1,6 @@
 package fr.acpi.stock.view;
 
-import fr.acpi.stock.product.SalesController;
+import fr.acpi.stock.product.controller.SalesController;
 
 import javax.swing.*;
 import java.awt.*;
