@@ -7,5 +7,5 @@ public interface IProductDAO {
 	List<IProduct> getAll();
 	boolean create(IProduct product);
 	boolean update(IProduct product);
-	boolean delete(String name);
+	boolean delete(IProduct product);
 }

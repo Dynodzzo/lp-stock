@@ -139,11 +139,11 @@ public class OracleProductDAO implements IProductDAO {
 	}
 
 	@Override
-	public boolean delete(String name) {
+	public boolean delete(IProduct product) {
 		boolean deleted = false;
 
 		try {
-			this._deleteProductStatement.setString(1, name);
+			this._deleteProductStatement.setString(1, product.name());
 			int rowsUpdated = this._deleteProductStatement.executeUpdate();
 
 			if (rowsUpdated == 1) {

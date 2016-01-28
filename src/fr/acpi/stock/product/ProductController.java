@@ -34,7 +34,7 @@ public class ProductController implements IProductController {
 	public boolean deleteProduct(String name) {
 		boolean deleted = false;
 
-		if (this._catalog.deleteProduct(name) && this._productDAO.delete(name)) {
+		if (this._productDAO.delete(this._catalog.product(name)) && this._catalog.deleteProduct(name)) {
 			deleted = true;
 		}
 

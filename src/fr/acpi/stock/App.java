@@ -8,7 +8,7 @@ import javax.swing.*;
 public class App {
 
     public static void main(String[] args) {
-		IProductDAO productDAO = new OracleProductDAO();
+		IProductDAO productDAO = new XMLProductDAO();
 		AppData.Catalog.addProducts(productDAO.getAll());
 		ProductController productCtrl = new ProductController(AppData.Catalog, productDAO);
 		SalesController salesCtrl = new SalesController(AppData.Catalog, productDAO);
