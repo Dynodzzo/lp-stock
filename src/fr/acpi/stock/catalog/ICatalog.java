@@ -5,6 +5,7 @@ import fr.acpi.stock.product.IProduct;
 import java.util.List;
 
 public interface ICatalog {
+	String name();
 	boolean addProduct(IProduct product);
 	boolean addProduct(String name, double unitPriceET, int amount);
 	int addProducts(List<IProduct> products);

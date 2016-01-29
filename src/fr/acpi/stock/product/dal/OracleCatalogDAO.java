@@ -1,18 +1,21 @@
 package fr.acpi.stock.product.dal;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.acpi.stock.DBData;
+import fr.acpi.stock.catalog.Catalog;
+import fr.acpi.stock.catalog.ICatalog;
 
-public class OracleCatalogDAO {
-/*	
+public class OracleCatalogDAO implements ICatalogDAO {	
 	protected Connection _connexion;
-	protected String _selectCatalogRequest = "SELECT name FROM Catalogs WHERE name = ?";
+//	protected String _selectCatalogRequest = "SELECT name FROM Catalogs WHERE name = ?";
 	protected String _selectCatalogsRequest = "SELECT name FROM Catalogs";
 	protected String _createCatalogRequest = "{call addCatalog(?)}";
 	protected String _deleteCatalogRequest = "DELETE FROM Catalogs WHERE name = ?";
 
-	protected PreparedStatement _selectCatalogStatement;
+//	protected PreparedStatement _selectCatalogStatement;
 	protected PreparedStatement _selectCatalogsStatement;
 	protected CallableStatement _createCatalogStatement;
 	protected PreparedStatement _deleteCatalogStatement;
@@ -30,7 +33,7 @@ public class OracleCatalogDAO {
 
 		try {
 			this.connect();
-			this._selectCatalogStatement = this._connexion.prepareStatement(this._selectCatalogRequest);
+//			this._selectCatalogStatement = this._connexion.prepareStatement(this._selectCatalogRequest);
 			this._selectCatalogsStatement = this._connexion.prepareStatement(this._selectCatalogsRequest);
 			this._createCatalogStatement = this._connexion.prepareCall(this._createCatalogRequest);
 			this._deleteCatalogStatement = this._connexion.prepareStatement(this._deleteCatalogRequest);
@@ -91,7 +94,7 @@ public class OracleCatalogDAO {
 
 		return deleted;
 	}
-
+/*
 	@Override
 	public ICatalog get(String name) {
 		ICatalog catalog = null;
@@ -110,7 +113,7 @@ public class OracleCatalogDAO {
 
 		return catalog;
 	}
-
+*/
 	@Override
 	public List<ICatalog> getAll() {
 		List<ICatalog> catalogs = new ArrayList<>();
@@ -119,7 +122,7 @@ public class OracleCatalogDAO {
 			this._catalogSet = this._selectCatalogsStatement.executeQuery();
 
 			while (this._catalogSet.next()) {
-				catalogs.add(new Catalog(this._catalogSet.getString(1));
+				catalogs.add(new Catalog(this._catalogSet.getString(1)));
 			}
 		}
 		catch (SQLException e) {
@@ -127,6 +130,5 @@ public class OracleCatalogDAO {
 		}
 
 		return catalogs;
-	}
-*/	
+	}	
 }

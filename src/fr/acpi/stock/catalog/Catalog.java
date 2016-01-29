@@ -9,7 +9,22 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Catalog implements ICatalog {
-	protected List<IProduct> _products = new ArrayList<>();
+	protected List<IProduct> _products; // = new ArrayList<>();
+	private String _name;
+	
+	public Catalog() {
+		this._products = new ArrayList<IProduct>();
+	}
+	
+	public Catalog(String name) {
+		this._products = new ArrayList<IProduct>();
+		this._name = name;
+	}
+	
+	@Override
+	public String name() {
+		return this._name;
+	}
 
 	@Override
 	public boolean addProduct(IProduct product) {

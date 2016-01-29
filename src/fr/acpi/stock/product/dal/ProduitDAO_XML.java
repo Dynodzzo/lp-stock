@@ -12,7 +12,7 @@ import org.jdom.output.*;
 
 
 public class ProduitDAO_XML {
-	private String uri = "db/xml/Produits.xml";
+	private String uri = "/home/moiii/public_html/lp-stock/trunk/db/xml/Produits.xml"; // db/xml/Produits.xml"; //   /home/moiii/public_html/lp-stock/trunk/db/xml/Produits.xml";
 	private Document doc;
 
 	public ProduitDAO_XML() {
