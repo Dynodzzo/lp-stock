@@ -16,4 +16,5 @@ public interface ICatalog {
 	double totalAmountIT();
 	IProduct product(String name);
 	void clear();
+	int getIndex();	
 }

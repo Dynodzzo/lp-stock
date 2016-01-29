@@ -20,7 +20,7 @@ public class ProduitDAO_XML {
 		try {
 			doc = sdoc.build(uri);
 		} catch (Exception e) {
-			System.out.println("erreur construction arbre JDOM");
+			System.out.println("erreur construction arbre JDOM produits");
 		}
 	}
 
@@ -104,7 +104,7 @@ public class ProduitDAO_XML {
 			out.output(doc, new PrintWriter(uri));
 			return true;
 		} catch (Exception e) {
-			System.out.println("erreur sauvegarde dans fichier XML");
+			System.out.println("erreur sauvegarde dans fichier produits XML");
 			return false;
 		}
 	}
