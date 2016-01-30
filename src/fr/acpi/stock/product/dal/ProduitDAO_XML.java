@@ -6,6 +6,7 @@ import java.util.List;
 
 import fr.acpi.stock.product.IProduct;
 import fr.acpi.stock.product.Product;
+
 import org.jdom.*;
 import org.jdom.input.*;
 import org.jdom.output.*;

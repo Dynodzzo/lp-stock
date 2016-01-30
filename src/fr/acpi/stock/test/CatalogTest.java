@@ -4,6 +4,7 @@ import fr.acpi.stock.catalog.Catalog;
 import fr.acpi.stock.catalog.ICatalog;
 import fr.acpi.stock.product.IProduct;
 import fr.acpi.stock.product.Product;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

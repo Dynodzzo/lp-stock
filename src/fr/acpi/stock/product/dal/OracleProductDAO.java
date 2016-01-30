@@ -1,9 +1,7 @@
 package fr.acpi.stock.product.dal;
 
-import fr.acpi.stock.DBData;
 import fr.acpi.stock.product.IProduct;
 import fr.acpi.stock.product.Product;
-import fr.acpi.stock.product.dal.IProductDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,6 +22,8 @@ public class OracleProductDAO implements IProductDAO {
 	protected PreparedStatement _deleteProductStatement;
 
 	protected ResultSet _productSet;
+	
+	public OracleProductDAO() {}
 
 	public OracleProductDAO(Connection connexion) {
 		this._connexion = connexion;

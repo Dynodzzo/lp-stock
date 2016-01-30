@@ -14,7 +14,7 @@ import fr.acpi.stock.catalog.Catalog;
 import fr.acpi.stock.catalog.ICatalog;
 
 public class XMLCatalogDAO implements ICatalogDAO {
-	private String uri = "db/xml/Catalogs.xml"; // db/xml/Produits.xml"; //   /home/moiii/public_html/lp-stock/trunk/db/xml/Produits.xml";
+	private String uri = "db/xml/Catalogs.xml";
 	private Document doc;
 	
 	public XMLCatalogDAO() {

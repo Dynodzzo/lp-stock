@@ -1,6 +1,5 @@
 package fr.acpi.stock.catalog.controller;
 
-import fr.acpi.stock.catalog.Catalog;
 import fr.acpi.stock.catalog.ICatalog;
 import fr.acpi.stock.catalog.dal.ICatalogDAO;
 import fr.acpi.stock.catalogs.ICatalogs;
