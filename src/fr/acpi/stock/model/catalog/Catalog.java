@@ -1,7 +1,7 @@
-package fr.acpi.stock.catalog;
+package fr.acpi.stock.model.catalog;
 
-import fr.acpi.stock.product.IProduct;
-import fr.acpi.stock.product.Product;
+import fr.acpi.stock.model.product.IProduct;
+import fr.acpi.stock.model.product.Product;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -221,4 +221,10 @@ public class Catalog implements ICatalog {
 
 		return productIndex;
 	}
+	
+	@Override
+	public int numberCatalogProducts() {
+		return this._products.size();
+	}
+	
 }

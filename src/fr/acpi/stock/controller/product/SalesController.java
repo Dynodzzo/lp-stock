@@ -1,8 +1,8 @@
-package fr.acpi.stock.product.controller;
+package fr.acpi.stock.controller.product;
 
-import fr.acpi.stock.catalog.ICatalog;
-import fr.acpi.stock.product.controller.IProductController;
-import fr.acpi.stock.product.dal.IProductDAO;
+import fr.acpi.stock.controller.product.IProductController;
+import fr.acpi.stock.dal.product.IProductDAO;
+import fr.acpi.stock.model.catalog.ICatalog;
 
 public class SalesController implements IProductController {
 	protected ICatalog _catalog;

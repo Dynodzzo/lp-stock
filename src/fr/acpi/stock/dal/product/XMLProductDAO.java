@@ -1,8 +1,8 @@
-package fr.acpi.stock.product.dal;
+package fr.acpi.stock.dal.product;
 
-import fr.acpi.stock.product.IProduct;
-import fr.acpi.stock.product.dal.IProductDAO;
-import fr.acpi.stock.product.dal.ProduitDAO_XML;
+import fr.acpi.stock.dal.product.IProductDAO;
+import fr.acpi.stock.dal.product.ProduitDAO_XML;
+import fr.acpi.stock.model.product.IProduct;
 
 import java.util.List;
 

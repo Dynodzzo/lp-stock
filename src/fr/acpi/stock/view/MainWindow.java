@@ -1,11 +1,12 @@
 package fr.acpi.stock.view;
 
 import fr.acpi.stock.AppData;
-import fr.acpi.stock.product.controller.ProductController;
-import fr.acpi.stock.product.controller.SalesController;
-import fr.acpi.stock.product.controller.StockController;
+import fr.acpi.stock.controller.product.ProductController;
+import fr.acpi.stock.controller.product.SalesController;
+import fr.acpi.stock.controller.product.StockController;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -73,7 +74,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String[] names = AppData.Catalog.productsNames();
+		String[] names = AppData.catalog.productsNames();
 		Object source = e.getSource();
 
 		if (source == this.btnDisplay) {

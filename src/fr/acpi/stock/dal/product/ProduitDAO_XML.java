@@ -1,11 +1,12 @@
-package fr.acpi.stock.product.dal;
+package fr.acpi.stock.dal.product;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.acpi.stock.product.IProduct;
-import fr.acpi.stock.product.Product;
+import fr.acpi.stock.model.product.IProduct;
+import fr.acpi.stock.model.product.Product;
+
 import org.jdom.*;
 import org.jdom.input.*;
 import org.jdom.output.*;

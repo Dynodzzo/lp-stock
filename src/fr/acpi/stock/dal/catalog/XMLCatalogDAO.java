@@ -1,4 +1,4 @@
-package fr.acpi.stock.product.dal;
+package fr.acpi.stock.dal.catalog;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,11 +11,12 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 
-import fr.acpi.stock.catalog.Catalog;
-import fr.acpi.stock.catalog.ICatalog;
+import fr.acpi.stock.dal.catalog.ICatalogDAO;
+import fr.acpi.stock.model.catalog.Catalog;
+import fr.acpi.stock.model.catalog.ICatalog;
 
 public class XMLCatalogDAO implements ICatalogDAO {
-	private String uri = "/home/moiii/public_html/lp-stock/trunk/db/xml/Catalogs.xml"; // db/xml/Produits.xml"; //   /home/moiii/public_html/lp-stock/trunk/db/xml/Produits.xml";
+	private String uri = "/home/moiii/public_html/lp-stock/trunk/db/xml/Catalogs.xml"; // db/xml/Produits.xml";
 	private Document doc;
 	
 	public XMLCatalogDAO() {

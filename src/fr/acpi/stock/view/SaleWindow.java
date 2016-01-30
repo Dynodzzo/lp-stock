@@ -1,8 +1,9 @@
 package fr.acpi.stock.view;
 
-import fr.acpi.stock.product.controller.SalesController;
+import fr.acpi.stock.controller.product.SalesController;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,9 +1,10 @@
 package fr.acpi.stock.test;
 
-import fr.acpi.stock.catalog.Catalog;
-import fr.acpi.stock.catalog.ICatalog;
-import fr.acpi.stock.product.IProduct;
-import fr.acpi.stock.product.Product;
+import fr.acpi.stock.model.catalog.Catalog;
+import fr.acpi.stock.model.catalog.ICatalog;
+import fr.acpi.stock.model.product.IProduct;
+import fr.acpi.stock.model.product.Product;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

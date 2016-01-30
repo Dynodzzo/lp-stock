@@ -1,12 +1,11 @@
-package fr.acpi.stock.product.dal;
+package fr.acpi.stock.dal.catalog;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.acpi.stock.DBData;
-import fr.acpi.stock.catalog.Catalog;
-import fr.acpi.stock.catalog.ICatalog;
+import fr.acpi.stock.model.catalog.Catalog;
+import fr.acpi.stock.model.catalog.ICatalog;
 
 public class OracleCatalogDAO implements ICatalogDAO {	
 	protected Connection _connexion;
@@ -21,18 +20,13 @@ public class OracleCatalogDAO implements ICatalogDAO {
 	protected PreparedStatement _deleteCatalogStatement;
 
 	protected ResultSet _catalogSet;
+	
+	public OracleCatalogDAO() {}
 
-	public OracleCatalogDAO() {
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		}
-		catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
+	public OracleCatalogDAO(Connection connexion) {
 
 		try {
-			this.connect();
+			this.connect(connexion);
 //			this._selectCatalogStatement = this._connexion.prepareStatement(this._selectCatalogRequest);
 			this._selectCatalogsStatement = this._connexion.prepareStatement(this._selectCatalogsRequest);
 			this._createCatalogStatement = this._connexion.prepareCall(this._createCatalogRequest);
@@ -43,13 +37,8 @@ public class OracleCatalogDAO implements ICatalogDAO {
 		}
 	}
 
-	protected void connect() {
-		try {
-			this._connexion = DriverManager.getConnection(DBData.url, DBData.login, DBData.password);
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
+	protected void connect(Connection connexion) {
+			this._connexion = connexion;
 	}
 
 	protected void disconnect() {

@@ -1,11 +1,15 @@
-package fr.acpi.stock.catalog;
+package fr.acpi.stock.model.catalog;
 
-import fr.acpi.stock.product.IProduct;
+import fr.acpi.stock.model.product.IProduct;
 
 import java.util.List;
 
 public interface ICatalog {
 	String name();
+	int getIndex();
+	
+	int numberCatalogProducts();
+	
 	boolean addProduct(IProduct product);
 	boolean addProduct(String name, double unitPriceET, int amount);
 	int addProducts(List<IProduct> products);
@@ -16,5 +20,5 @@ public interface ICatalog {
 	double totalAmountIT();
 	IProduct product(String name);
 	void clear();
-	int getIndex();	
+		
 }

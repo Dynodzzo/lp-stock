@@ -1,9 +1,9 @@
-package fr.acpi.stock.product.dal;
+package fr.acpi.stock.dal.product;
 
 import fr.acpi.stock.DBData;
-import fr.acpi.stock.product.IProduct;
-import fr.acpi.stock.product.Product;
-import fr.acpi.stock.product.dal.IProductDAO;
+import fr.acpi.stock.dal.product.IProductDAO;
+import fr.acpi.stock.model.product.IProduct;
+import fr.acpi.stock.model.product.Product;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,18 +24,12 @@ public class OracleProductDAO implements IProductDAO {
 	protected PreparedStatement _deleteProductStatement;
 
 	protected ResultSet _productSet;
+	
+	public OracleProductDAO() {}
 
-	public OracleProductDAO() {
+	public OracleProductDAO(Connection connexion) {
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		}
-		catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-
-		try {
-			this.connect();
+			this.connect(connexion);
 			this._selectProductStatement = this._connexion.prepareStatement(this._selectProductRequest);
 			this._selectProductsStatement = this._connexion.prepareStatement(this._selectProductsRequest);
 			this._createProductStatement = this._connexion.prepareCall(this._createProductRequest);
@@ -47,13 +41,8 @@ public class OracleProductDAO implements IProductDAO {
 		}
 	}
 
-	protected void connect() {
-		try {
-			this._connexion = DriverManager.getConnection(DBData.url, DBData.login, DBData.password);
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
+	protected void connect(Connection connexion) {
+		this._connexion = connexion;
 	}
 
 	protected void disconnect() {

@@ -1,6 +1,6 @@
-package fr.acpi.stock.product.dal;
+package fr.acpi.stock.dal.product;
 
-import fr.acpi.stock.product.IProduct;
+import fr.acpi.stock.model.product.IProduct;
 
 import java.util.List;
 

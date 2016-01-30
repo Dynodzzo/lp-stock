@@ -1,10 +1,11 @@
 package fr.acpi.stock.view;
 
-import fr.acpi.stock.product.IProduct;
-import fr.acpi.stock.product.Product;
-import fr.acpi.stock.product.controller.ProductController;
+import fr.acpi.stock.controller.product.ProductController;
+import fr.acpi.stock.model.product.IProduct;
+import fr.acpi.stock.model.product.Product;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
