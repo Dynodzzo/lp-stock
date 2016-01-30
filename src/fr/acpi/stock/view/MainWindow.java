@@ -1,125 +1,157 @@
 package fr.acpi.stock.view;
 
-import fr.acpi.stock.AppData;
-import fr.acpi.stock.product.controller.ProductController;
-import fr.acpi.stock.product.controller.SalesController;
-import fr.acpi.stock.product.controller.StockController;
+import fr.acpi.stock.catalog.Catalog;
+import fr.acpi.stock.catalog.ICatalog;
+import fr.acpi.stock.catalog.controller.CatalogController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
-public class MainWindow extends JFrame implements ActionListener, WindowListener {
-	private JButton btnDisplay;
-	private JButton btnNew;
+public class MainWindow extends JFrame implements ActionListener {
+	private JButton btnAdd;
 	private JButton btnDelete;
-	private JButton btnPurchase;
-	private JButton btnSale;
-	private JButton btnExit;
+	private JButton btnSelect;
+	private JTextField txtAdd;
+	private JLabel lblCatalogsNumber;
+	private JComboBox cbxDelete;
+	private JComboBox cbxSelect;
+	private TextArea txaCatalogsDetails;
 
-	ProductController _productCtrl;
-	SalesController _salesCtrl;
-	StockController _stockCtrl;
+	private CatalogController _catalogCtrl;
 
-	public MainWindow(ProductController productCtrl, SalesController salesCtrl, StockController stockCtrl) {
-		this._productCtrl = productCtrl;
-		this._salesCtrl = salesCtrl;
-		this._stockCtrl = stockCtrl;
+	public MainWindow(CatalogController catalogCtrl) {
+		this._catalogCtrl = catalogCtrl;
 
-		this.setTitle("Gestion de stock");
-		this.setBounds(500, 500, 320, 250);
+		this.setTitle("Choisissez un catalogue");
+		this.setBounds(500, 500, 200, 125);
 		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 
-		JPanel pnlDisplay = new JPanel();
-		JPanel pnlNewDelete = new JPanel();
-		JPanel pnlPurchaseSale = new JPanel();
-		JPanel pnlExit = new JPanel();
-
 		Container contentPane = this.getContentPane();
-		contentPane.setLayout(new FlowLayout());
 
-		this.btnDisplay = new JButton("Quantités en stock");
-		this.btnNew = new JButton("Nouveau produit");
-		this.btnDelete = new JButton("Supprimer produit");
-		this.btnPurchase = new JButton("Acheter produit");
-		this.btnSale = new JButton("Vendre produit");
-		this.btnExit = new JButton("Quitter");
+		JPanel pnlInfosCatalogs = new JPanel();
+		JPanel pnlCatalogsNumber = new JPanel();
+		JPanel pnlCatalogsDetails = new JPanel();
+		JPanel pnlCatalogsManagement = new JPanel();
+		JPanel pnlAdd = new JPanel();
+		JPanel pnlDelete = new JPanel();
+		JPanel pnlSelect = new JPanel();
 
-		this.btnDisplay.addActionListener(this);
-		this.btnNew.addActionListener(this);
+		pnlCatalogsNumber.setBackground(Color.white);
+		pnlCatalogsDetails.setBackground(Color.white);
+		pnlAdd.setBackground(Color.gray);
+		pnlDelete.setBackground(Color.lightGray);
+		pnlSelect.setBackground(Color.gray);
+
+		pnlCatalogsNumber.add(new JLabel("Nous avons actuellement : "));
+		this.lblCatalogsNumber = new JLabel();
+		pnlCatalogsNumber.add(this.lblCatalogsNumber);
+
+		this.txaCatalogsDetails = new TextArea();
+		this.txaCatalogsDetails.setEditable(false);
+		new JScrollPane(this.txaCatalogsDetails);
+		this.txaCatalogsDetails.setPreferredSize(new Dimension(300, 100));
+		pnlCatalogsDetails.add(this.txaCatalogsDetails);
+
+		pnlAdd.add(new JLabel("Ajouter un catalogue : "));
+		this.txtAdd = new JTextField(10);
+		pnlAdd.add(this.txtAdd);
+		this.btnAdd = new JButton("Ajouter");
+		pnlAdd.add(this.btnAdd);
+
+		pnlDelete.add(new JLabel("Supprimer un catalogue : "));
+		this.cbxDelete = new JComboBox();
+		this.cbxDelete.setPreferredSize(new Dimension(100, 20));
+		pnlDelete.add(this.cbxDelete);
+		this.btnDelete = new JButton("Supprimer");
+		pnlDelete.add(this.btnDelete);
+
+		pnlSelect.add(new JLabel("Sélectionner un catalogue : "));
+		this.cbxSelect = new JComboBox();
+		this.cbxSelect.setPreferredSize(new Dimension(100, 20));
+		pnlSelect.add(this.cbxSelect);
+		this.btnSelect = new JButton("Sélectionner");
+		pnlSelect.add(this.btnSelect);
+
+		pnlCatalogsManagement.setLayout (new BorderLayout());
+		pnlCatalogsManagement.add(pnlAdd, "North");
+		pnlCatalogsManagement.add(pnlDelete);
+		pnlCatalogsManagement.add(pnlSelect, "South");
+
+		pnlInfosCatalogs.setLayout(new BorderLayout());
+		pnlInfosCatalogs.add(pnlCatalogsNumber, "North");
+		pnlInfosCatalogs.add(pnlCatalogsDetails, "South");
+
+		contentPane.add(pnlInfosCatalogs, "North");
+		contentPane.add(pnlCatalogsManagement, "South");
+		pack();
+
+		this.btnAdd.addActionListener(this);
 		this.btnDelete.addActionListener(this);
-		this.btnPurchase.addActionListener(this);
-		this.btnSale.addActionListener(this);
-		this.btnExit.addActionListener(this);
+		this.btnSelect.addActionListener(this);
 
-		pnlDisplay.add(this.btnDisplay);
-		pnlNewDelete.add(this.btnNew);
-		pnlNewDelete.add(this.btnDelete);
-		pnlPurchaseSale.add(this.btnPurchase);
-		pnlPurchaseSale.add(this.btnSale);
-		pnlExit.add(this.btnExit);
+		this.update();
 
-		contentPane.add(pnlDisplay);
-		contentPane.add(pnlNewDelete);
-		contentPane.add(pnlPurchaseSale);
-		contentPane.add(pnlExit);
-
-		this.addWindowListener(this);
 		this.setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String[] names = AppData.Catalog.productsNames();
 		Object source = e.getSource();
 
-		if (source == this.btnDisplay) {
-			new DisplayWindow(this._stockCtrl);
-			System.out.println("Display stock");
-		}
-		else if (source == this.btnNew) {
-			new NewWindow(this._productCtrl);
-			System.out.println("New product");
+		if (source == this.btnAdd) {
+			String name = this.txtAdd.getText();
+			this.txtAdd.setText("");
+
+			ICatalog catalog = new Catalog(name);
+			this._catalogCtrl.createCatalog(catalog);
+			this.update();
 		}
 		else if (source == this.btnDelete) {
-			new DeleteWindow(names, this._productCtrl);
-			System.out.println("Delete product");
+			String name = this.cbxDelete.getSelectedItem().toString();
+			this._catalogCtrl.deleteCatalog(name);
+			this.update();
 		}
-		else if (source == this.btnPurchase) {
-			new PurchaseWindow(names, this._salesCtrl);
-			System.out.println("Purchase a product");
-		}
-		else if (source == this.btnSale) {
-			new SaleWindow(names, this._salesCtrl);
-			System.out.println("Sell a product");
-		}
-		else if (source == this.btnExit) {
-			System.out.println("Exit");
-			System.exit(0);
+		else if (source == this.btnSelect) {
+			System.out.println("Catalog selected");
+			this._catalogCtrl.selectCatalog(this.cbxSelect.getSelectedItem().toString());
+			this.dispose();
 		}
 	}
 
-	@Override
-	public void windowOpened(WindowEvent e) {}
+	private void updateLists(String[] catalogNames) {
+		this.cbxDelete.removeAllItems();
+		this.cbxSelect.removeAllItems();
 
-	@Override
-	public void windowClosing(WindowEvent e) {}
+		if (catalogNames != null) {
+			for (int i = 0; i < catalogNames.length; i++) {
+				this.cbxDelete.addItem(catalogNames[i]);
+				this.cbxSelect.addItem(catalogNames[i]);
+			}
+		}
+	}
 
-	@Override
-	public void windowClosed(WindowEvent e) {}
+	private void updateCatalogsNumber(int catalogsNumber) {
+		this.lblCatalogsNumber.setText(catalogsNumber + " catalogues");
+	}
 
-	@Override
-	public void windowIconified(WindowEvent e) {}
+	private void updateCatalogsDetails(String[] catalogsDetails) {
+		if (catalogsDetails != null) {
+			StringBuilder details = new StringBuilder();
 
-	@Override
-	public void windowDeiconified(WindowEvent e) {}
+			for (int i = 0; i < catalogsDetails.length; i++) {
+				details.append(catalogsDetails[i]);
+			}
 
-	@Override
-	public void windowActivated(WindowEvent e) {}
+			this.txaCatalogsDetails.setText(details.toString());
+		}
 
-	@Override
-	public void windowDeactivated(WindowEvent e) {}
+	}
+
+	private void update() {
+		this.updateLists(this._catalogCtrl.catalogsNames());
+		this.updateCatalogsNumber(this._catalogCtrl.catalogs());
+		this.updateCatalogsDetails(this._catalogCtrl.catalogsDetails());
+	}
 }

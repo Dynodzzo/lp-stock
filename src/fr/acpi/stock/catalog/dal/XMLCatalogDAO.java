@@ -1,13 +1,12 @@
-package fr.acpi.stock.product.dal;
+package fr.acpi.stock.catalog.dal;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.acpi.stock.catalog.dal.ICatalogDAO;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 
@@ -15,7 +14,7 @@ import fr.acpi.stock.catalog.Catalog;
 import fr.acpi.stock.catalog.ICatalog;
 
 public class XMLCatalogDAO implements ICatalogDAO {
-	private String uri = "/home/moiii/public_html/lp-stock/trunk/db/xml/Catalogs.xml"; // db/xml/Produits.xml"; //   /home/moiii/public_html/lp-stock/trunk/db/xml/Produits.xml";
+	private String uri = "db/xml/Catalogs.xml"; // db/xml/Produits.xml"; //   /home/moiii/public_html/lp-stock/trunk/db/xml/Produits.xml";
 	private Document doc;
 	
 	public XMLCatalogDAO() {
@@ -32,7 +31,6 @@ public class XMLCatalogDAO implements ICatalogDAO {
 		try {
 			Element root = doc.getRootElement();
 			Element elementCatalog = new Element("catalog");
-			elementCatalog.setAttribute("id", String.valueOf(catalog.getIndex()));
 			Element name = new Element("name");
 			elementCatalog.addContent(name.setText(catalog.name()));			
 			root.addContent(elementCatalog);
@@ -60,6 +58,11 @@ public class XMLCatalogDAO implements ICatalogDAO {
 	}
 
 	@Override
+	public ICatalog get(String name) {
+		return null;
+	}
+
+	@Override
 	public List<ICatalog> getAll() {
 		List<ICatalog> listCatalog = new ArrayList<>();
 		try {
@@ -69,14 +72,19 @@ public class XMLCatalogDAO implements ICatalogDAO {
 			for (Element catalog : listElementCatalog) {
 				int id = Integer.parseInt(catalog.getAttributeValue("id"));
 				String name = catalog.getChildText("name");
-				listCatalog.add(new Catalog(id, name));
+				listCatalog.add(new Catalog(name));
 			}
 		} catch (Exception e) {
 			System.out.println("erreur getAll tous les catalogues");
 		}
 		return listCatalog;
 	}
-	
+
+	@Override
+	public int products(ICatalog catalog) {
+		return 0;
+	}
+
 	private boolean sauvegarde() {
 		System.out.println("Sauvegarde");
 		XMLOutputter out = new XMLOutputter();

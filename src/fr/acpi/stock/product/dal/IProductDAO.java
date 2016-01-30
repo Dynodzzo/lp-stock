@@ -5,9 +5,9 @@ import fr.acpi.stock.product.IProduct;
 import java.util.List;
 
 public interface IProductDAO {
-	IProduct get(String name);
-	List<IProduct> getAll();
-	boolean create(IProduct product);
-	boolean update(IProduct product);
-	boolean delete(IProduct product);
+	IProduct get(String name, String catalogName);
+	List<IProduct> getAll(String catalogName);
+	boolean create(IProduct product, String catalogName);
+	boolean update(IProduct product, String catalogName);
+	boolean delete(IProduct product, String catalogName);
 }

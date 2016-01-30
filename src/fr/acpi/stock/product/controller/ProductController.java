@@ -27,7 +27,7 @@ public class ProductController implements IProductController {
 	public boolean createProduct(IProduct product) {
 		boolean created = false;
 
-		if (this._catalog.addProduct(product) && this._productDAO.create(product)) {
+		if (this._catalog.addProduct(product) && this._productDAO.create(product, this._catalog.name())) {
 			created = true;
 		}
 
@@ -37,7 +37,7 @@ public class ProductController implements IProductController {
 	public boolean deleteProduct(String name) {
 		boolean deleted = false;
 
-		if (this._productDAO.delete(this._catalog.product(name)) && this._catalog.deleteProduct(name)) {
+		if (this._productDAO.delete(this._catalog.product(name), this._catalog.name()) && this._catalog.deleteProduct(name)) {
 			deleted = true;
 		}
 

@@ -14,27 +14,27 @@ public class XMLProductDAO implements IProductDAO {
 	}
 
 	@Override
-	public IProduct get(String name) {
+	public IProduct get(String name, String catalogName) {
 		return this._xmlDAO.lire(name);
 	}
 
 	@Override
-	public List<IProduct> getAll() {
+	public List<IProduct> getAll(String catalogName) {
 		return this._xmlDAO.lireTous();
 	}
 
 	@Override
-	public boolean create(IProduct product) {
+	public boolean create(IProduct product, String catalogName) {
 		return this._xmlDAO.creer(product);
 	}
 
 	@Override
-	public boolean update(IProduct product) {
+	public boolean update(IProduct product, String catalogName) {
 		return this._xmlDAO.maj(product);
 	}
 
 	@Override
-	public boolean delete(IProduct product) {
+	public boolean delete(IProduct product, String catalogName) {
 		return this._xmlDAO.supprimer(product);
 	}
 }

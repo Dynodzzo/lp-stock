@@ -1,4 +1,4 @@
-package fr.acpi.stock.product.dal;
+package fr.acpi.stock.catalog.dal;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -7,60 +7,76 @@ import java.util.List;
 import fr.acpi.stock.DBData;
 import fr.acpi.stock.catalog.Catalog;
 import fr.acpi.stock.catalog.ICatalog;
+import fr.acpi.stock.catalog.dal.ICatalogDAO;
 
-public class OracleCatalogDAO implements ICatalogDAO {	
+public class OracleCatalogDAO implements ICatalogDAO {
 	protected Connection _connexion;
-//	protected String _selectCatalogRequest = "SELECT name FROM Catalogs WHERE name = ?";
+	protected String _selectCatalogRequest = "SELECT name FROM Catalogs WHERE name = ?";
 	protected String _selectCatalogsRequest = "SELECT name FROM Catalogs";
-	protected String _createCatalogRequest = "{call addCatalog(?)}";
+	protected String _createCatalogRequest = "{CALL addCatalog(?)}";
 	protected String _deleteCatalogRequest = "DELETE FROM Catalogs WHERE name = ?";
+	protected String _countProductsRequest = "SELECT COUNT(P.id) FROM Products P, Catalogs C WHERE P.catalogId = C.id AND C.name = ?";
 
-//	protected PreparedStatement _selectCatalogStatement;
+	protected PreparedStatement _selectCatalogStatement;
 	protected PreparedStatement _selectCatalogsStatement;
 	protected CallableStatement _createCatalogStatement;
 	protected PreparedStatement _deleteCatalogStatement;
+	protected PreparedStatement _countProductsStatement;
 
 	protected ResultSet _catalogSet;
 
-	public OracleCatalogDAO() {
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		}
-		catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
+	public OracleCatalogDAO(Connection connexion) {
+		this._connexion = connexion;
 
 		try {
-			this.connect();
-//			this._selectCatalogStatement = this._connexion.prepareStatement(this._selectCatalogRequest);
+			this._selectCatalogStatement = this._connexion.prepareStatement(this._selectCatalogRequest);
 			this._selectCatalogsStatement = this._connexion.prepareStatement(this._selectCatalogsRequest);
 			this._createCatalogStatement = this._connexion.prepareCall(this._createCatalogRequest);
 			this._deleteCatalogStatement = this._connexion.prepareStatement(this._deleteCatalogRequest);
+			this._countProductsStatement = this._connexion.prepareStatement(this._countProductsRequest);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	protected void connect() {
+	@Override
+	public ICatalog get(String name) {
+		ICatalog catalog = null;
+
 		try {
-			this._connexion = DriverManager.getConnection(DBData.url, DBData.login, DBData.password);
+			this._selectCatalogStatement.setString(1, name);
+			this._catalogSet = this._selectCatalogStatement.executeQuery();
+
+			if (this._catalogSet.next()) {
+				catalog = new Catalog(this._catalogSet.getString(1));
+			}
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		return catalog;
 	}
 
-	protected void disconnect() {
+	@Override
+	public List<ICatalog> getAll() {
+		List<ICatalog> catalogs = new ArrayList<>();
+
 		try {
-			this._connexion.close();
+			this._catalogSet = this._selectCatalogsStatement.executeQuery();
+
+			while (this._catalogSet.next()) {
+				catalogs.add(new Catalog(this._catalogSet.getString(1)));
+			}
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		return catalogs;
 	}
-	
+
 	@Override
 	public boolean create(ICatalog catalog) {
 		boolean created = false;
@@ -94,41 +110,22 @@ public class OracleCatalogDAO implements ICatalogDAO {
 
 		return deleted;
 	}
-/*
+
 	@Override
-	public ICatalog get(String name) {
-		ICatalog catalog = null;
+	public int products(ICatalog catalog) {
+		int productsNb = 0;
 
 		try {
-			this._selectCatalogStatement.setString(1, name);
-			this._catalogSet = this._selectCatalogStatement.executeQuery();
+			this._countProductsStatement.setString(1, catalog.name());
+			this._catalogSet = this._countProductsStatement.executeQuery();
 
 			if (this._catalogSet.next()) {
-				catalog = new Catalog(this._catalogSet.getString(1));
+				productsNb = this._catalogSet.getInt(1);
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return catalog;
+		return productsNb;
 	}
-*/
-	@Override
-	public List<ICatalog> getAll() {
-		List<ICatalog> catalogs = new ArrayList<>();
-
-		try {
-			this._catalogSet = this._selectCatalogsStatement.executeQuery();
-
-			while (this._catalogSet.next()) {
-				catalogs.add(new Catalog(this._catalogSet.getString(1)));
-			}
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return catalogs;
-	}	
 }

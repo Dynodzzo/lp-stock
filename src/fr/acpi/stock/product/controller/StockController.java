@@ -24,7 +24,11 @@ public class StockController implements IProductController {
 		this._productDAO = productDAO;
 	}
 
+	public String catalogName() {
+		return this._catalog.name();
+	}
+
 	public String getStock() {
-		return AppData.Catalog.toString();
+		return this._catalog.toString();
 	}
 }

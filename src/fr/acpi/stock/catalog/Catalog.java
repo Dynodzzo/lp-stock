@@ -9,33 +9,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Catalog implements ICatalog {
-	protected List<IProduct> _products; // = new ArrayList<>();
+	protected List<IProduct> _products = new ArrayList<>();
 	private String _name;
-	private int _id;
-	
-	public Catalog() {
-		this._products = new ArrayList<IProduct>();
-	}
-	
+
 	public Catalog(String name) {
 		this._products = new ArrayList<IProduct>();
 		this._name = name;
 	}
 	
-	public Catalog(int id, String name) {
-		this._products = new ArrayList<IProduct>();
-		this._name = name;
-		this._id = id;
-	}
-	
 	@Override
 	public String name() {
 		return this._name;
-	}
-	
-	@Override
-	public int getIndex() {
-		return this._id;
 	}
 
 	@Override

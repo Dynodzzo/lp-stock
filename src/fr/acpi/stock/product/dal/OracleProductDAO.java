@@ -11,11 +11,11 @@ import java.util.List;
 
 public class OracleProductDAO implements IProductDAO {
 	protected Connection _connexion;
-	protected String _selectProductRequest = "SELECT name, unitPriceHT, stockAmount FROM Products WHERE name = ?";
-	protected String _selectProductsRequest = "SELECT name, unitPriceHT, stockAmount FROM Products";
-	protected String _createProductRequest = "{call addProduct(?, ?, ?)}";
-	protected String _updateProductRequest = "UPDATE Products SET name = ?, unitPriceHT = ?, stockAmount = ? WHERE name = ?";
-	protected String _deleteProductRequest = "DELETE FROM Products WHERE name = ?";
+	protected String _selectProductRequest = "SELECT P.name, unitPriceET, amount FROM Products P, Catalogs C WHERE P.catalogId = C.id AND name = ? and C.name = ?";
+	protected String _selectProductsRequest = "SELECT P.name, unitPriceET, amount FROM Products P, Catalogs C WHERE P.catalogId = C.id AND C.name = ?";
+	protected String _createProductRequest = "{CALL addProduct(?, ?, ?, ?)}";
+	protected String _updateProductRequest = "UPDATE Products SET name = ?, unitPriceET = ?, amount = ? WHERE name = ? and catalogId = (SELECT id FROM Catalogs WHERE name = ?)";
+	protected String _deleteProductRequest = "DELETE FROM Products WHERE name = ? and catalogId = (SELECT id FROM Catalogs WHERE name = ?)";
 
 	protected PreparedStatement _selectProductStatement;
 	protected PreparedStatement _selectProductsStatement;
@@ -25,17 +25,10 @@ public class OracleProductDAO implements IProductDAO {
 
 	protected ResultSet _productSet;
 
-	public OracleProductDAO() {
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		}
-		catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
+	public OracleProductDAO(Connection connexion) {
+		this._connexion = connexion;
 
 		try {
-			this.connect();
 			this._selectProductStatement = this._connexion.prepareStatement(this._selectProductRequest);
 			this._selectProductsStatement = this._connexion.prepareStatement(this._selectProductsRequest);
 			this._createProductStatement = this._connexion.prepareCall(this._createProductRequest);
@@ -47,30 +40,13 @@ public class OracleProductDAO implements IProductDAO {
 		}
 	}
 
-	protected void connect() {
-		try {
-			this._connexion = DriverManager.getConnection(DBData.url, DBData.login, DBData.password);
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	protected void disconnect() {
-		try {
-			this._connexion.close();
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	@Override
-	public IProduct get(String name) {
+	public IProduct get(String name, String catalogName) {
 		IProduct product = null;
 
 		try {
 			this._selectProductStatement.setString(1, name);
+			this._selectProductStatement.setString(2, catalogName);
 			this._productSet = this._selectProductStatement.executeQuery();
 
 			if (this._productSet.next()) {
@@ -85,10 +61,11 @@ public class OracleProductDAO implements IProductDAO {
 	}
 
 	@Override
-	public List<IProduct> getAll() {
+	public List<IProduct> getAll(String catalogName) {
 		List<IProduct> products = new ArrayList<>();
 
 		try {
+			this._selectProductsStatement.setString(1, catalogName);
 			this._productSet = this._selectProductsStatement.executeQuery();
 
 			while (this._productSet.next()) {
@@ -103,13 +80,14 @@ public class OracleProductDAO implements IProductDAO {
 	}
 
 	@Override
-	public boolean create(IProduct product) {
+	public boolean create(IProduct product, String catalogName) {
 		boolean created = false;
 
 		try {
 			this._createProductStatement.setString(1, product.name());
 			this._createProductStatement.setDouble(2, product.unitPriceET());
 			this._createProductStatement.setInt(3, product.amount());
+			this._createProductStatement.setString(4, catalogName);
 			created = this._createProductStatement.execute();
 		}
 		catch (SQLException e) {
@@ -120,7 +98,7 @@ public class OracleProductDAO implements IProductDAO {
 	}
 
 	@Override
-	public boolean update(IProduct product) {
+	public boolean update(IProduct product, String catalogName) {
 		boolean updated = false;
 
 		try {
@@ -128,6 +106,7 @@ public class OracleProductDAO implements IProductDAO {
 			this._updateProductStatement.setDouble(2, product.unitPriceET());
 			this._updateProductStatement.setInt(3, product.amount());
 			this._updateProductStatement.setString(4, product.name());
+			this._updateProductStatement.setString(5, catalogName);
 			int rowsUpdated = this._updateProductStatement.executeUpdate();
 
 			if (rowsUpdated == 1) {
@@ -142,11 +121,12 @@ public class OracleProductDAO implements IProductDAO {
 	}
 
 	@Override
-	public boolean delete(IProduct product) {
+	public boolean delete(IProduct product, String catalogName) {
 		boolean deleted = false;
 
 		try {
 			this._deleteProductStatement.setString(1, product.name());
+			this._deleteProductStatement.setString(2, catalogName);
 			int rowsUpdated = this._deleteProductStatement.executeUpdate();
 
 			if (rowsUpdated == 1) {

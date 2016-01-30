@@ -16,7 +16,7 @@ public class CatalogTest {
 
 	@Before
 	public void before() {
-		this.catalog = new Catalog();
+		this.catalog = new Catalog("Test");
 	}
 
 	@Test

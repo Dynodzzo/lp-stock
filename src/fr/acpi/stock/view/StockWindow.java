@@ -7,15 +7,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DisplayWindow extends JFrame implements ActionListener {
+public class StockWindow extends JFrame implements ActionListener {
 	private JButton btnLeave;
 
 	private StockController _stockCtrl;
 
-	public DisplayWindow(StockController stockCtrl) {
+	public StockWindow(StockController stockCtrl) {
 		this._stockCtrl = stockCtrl;
 
-		this.setTitle("Etat du stock");
+		this.setTitle("Etat du stock : Catalogue " + this._stockCtrl.catalogName());
 		this.setBounds(500, 500, 450, 250);
 
 		JPanel pnlTop = new JPanel();

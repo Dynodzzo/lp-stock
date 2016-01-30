@@ -1,8 +1,8 @@
 package fr.acpi.stock;
 
-import fr.acpi.stock.catalog.Catalog;
-import fr.acpi.stock.catalog.ICatalog;
+import fr.acpi.stock.catalogs.Catalogs;
+import fr.acpi.stock.catalogs.ICatalogs;
 
 public abstract class AppData {
-	public static ICatalog Catalog = new Catalog();
+	public static ICatalogs Catalogs = new Catalogs();
 }

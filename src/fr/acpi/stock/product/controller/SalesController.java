@@ -26,7 +26,7 @@ public class SalesController implements IProductController {
 	public boolean buyProduct(String name, int amount) {
 		boolean bought = false;
 
-		if (this._catalog.buyStock(name, amount) && this._productDAO.update(this._catalog.product(name))) {
+		if (this._catalog.buyStock(name, amount) && this._productDAO.update(this._catalog.product(name), this._catalog.name())) {
 			bought = true;
 		}
 
@@ -36,7 +36,7 @@ public class SalesController implements IProductController {
 	public boolean sellProduct(String name, int amount) {
 		boolean sold = false;
 
-		if (this._catalog.sellStock(name, amount) && this._productDAO.update(this._catalog.product(name))) {
+		if (this._catalog.sellStock(name, amount) && this._productDAO.update(this._catalog.product(name), this._catalog.name())) {
 			sold = true;
 		}
 
