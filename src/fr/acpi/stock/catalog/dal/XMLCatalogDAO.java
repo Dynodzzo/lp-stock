@@ -35,6 +35,7 @@ public class XMLCatalogDAO implements ICatalogDAO {
 		try {
 			Element root = doc.getRootElement();
 			Element elementCatalog = new Element("catalog");
+			elementCatalog.setAttribute("id", catalog.name());
 			Element name = new Element("name");
 			elementCatalog.addContent(name.setText(catalog.name()));			
 			root.addContent(elementCatalog);

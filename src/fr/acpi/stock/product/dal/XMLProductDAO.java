@@ -30,10 +30,14 @@ public class XMLProductDAO implements IProductDAO {
 	public List<IProduct> getAll(String catalogName) {
 		return this._xmlDAO.getAll(catalogName);
 	}
+	
+	public boolean create(IProduct product) {
+		return this._xmlDAO.creer(product);
+	}
 
 	@Override
 	public boolean create(IProduct product, String catalogName) {
-		return this._xmlDAO.creer(product);
+		return this._xmlDAO.create(product, catalogName);
 	}
 
 	@Override

@@ -42,6 +42,29 @@ public class ProduitDAO_XML {
 			return false;
 		}
 	}
+	
+	public boolean create(IProduct product, String catalogName) {
+		try {
+			Element root = doc.getRootElement();
+			
+			List<Element> listElementCatalog = root.getChildren("catalog");
+			for (Element elemCatalog : listElementCatalog) {
+				if(elemCatalog.getChild("name").getText().compareToIgnoreCase(catalogName) == 0) {
+					Element elementProduct = new Element("product");
+					elementProduct.setAttribute("name", product.name());
+					Element prix = new Element("unitPriceET");
+					elementProduct.addContent(prix.setText(String.valueOf(product.unitPriceET())));
+					Element qte = new Element("amount");
+					elementProduct.addContent(qte.setText(String.valueOf(product.amount())));
+					elemCatalog.addContent(elementProduct);
+				}
+			}
+			return sauvegarde();
+		} catch (Exception e) {
+			System.out.println("erreur creer produit");
+			return false;
+		}
+	}
 
 	public boolean maj(IProduct p) {
 		try {
@@ -101,7 +124,6 @@ public class ProduitDAO_XML {
 	
 	public List<IProduct> getAll(String catalogName) {
 		List<IProduct> listProducts = new ArrayList<>();
-		int i=0;
 		try {
 			Element root = doc.getRootElement();
 			
