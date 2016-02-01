@@ -72,10 +72,38 @@ public class ProduitDAO_XML {
 			if (prod != null) {
 				prod.getChild("amount").setText(String.valueOf(p.amount()));
 				return sauvegarde();
-			}
-			return false;
+			} else
+				return false;
 		} catch (Exception e) {
 			System.out.println("erreur maj produit");
+			return false;
+		}
+	}
+	
+
+	public boolean update(IProduct product, String catalogName) {
+		boolean result = false;
+		try {
+			Element root = doc.getRootElement();
+			
+			List<Element> listElementCatalog = root.getChildren("catalog");
+			for (Element elemCatalog : listElementCatalog) {
+				
+				if(elemCatalog.getChild("name").getText().compareToIgnoreCase(catalogName) == 0) {
+					List<Element> listElementProduct = elemCatalog.getChildren("product");
+					
+					for (Element elemProduct : listElementProduct) {
+						if(elemProduct.getAttributeValue("name").compareToIgnoreCase(product.name()) == 0) {
+							elemProduct.getChild("amount").setText(String.valueOf(product.amount()));
+							result = sauvegarde();
+						}
+					}
+				} else
+					result = false;
+			}
+			return result;
+		} catch (Exception e) {
+			System.out.println("erreur update produit :"+product.name() +" du catalog :"+catalogName);
 			return false;
 		}
 	}
@@ -91,6 +119,34 @@ public class ProduitDAO_XML {
 				return false;
 		} catch (Exception e) {
 			System.out.println("erreur supprimer produit");
+			return false;
+		}
+	}
+	
+
+	public boolean delete(IProduct product, String catalogName) {
+		boolean result = false;
+		try {
+			Element root = doc.getRootElement();
+			
+			List<Element> listElementCatalog = root.getChildren("catalog");
+			for (Element elemCatalog : listElementCatalog) {
+				
+				if(elemCatalog.getChild("name").getText().compareToIgnoreCase(catalogName) == 0) {
+					List<Element> listElementProduct = elemCatalog.getChildren("product");
+					
+					for (Element elemProduct : listElementProduct) {
+						if(elemProduct.getAttributeValue("name").compareToIgnoreCase(product.name()) == 0) {
+							elemProduct.removeContent(elemProduct);
+							result = sauvegarde();
+						}
+					}
+				} else
+					result = false;
+			}
+			return result;
+		} catch (Exception e) {
+			System.out.println("erreur delete produit :"+product.name() +" du catalog :"+catalogName);
 			return false;
 		}
 	}

@@ -40,13 +40,21 @@ public class XMLProductDAO implements IProductDAO {
 		return this._xmlDAO.create(product, catalogName);
 	}
 
-	@Override
-	public boolean update(IProduct product, String catalogName) {
+	public boolean update(IProduct product) {
 		return this._xmlDAO.maj(product);
 	}
+	
+	@Override
+	public boolean update(IProduct product, String catalogName) {
+		return this._xmlDAO.update(product, catalogName);
+	}
 
+	public boolean delete(IProduct product) {
+		return this._xmlDAO.supprimer(product);
+	}
+	
 	@Override
 	public boolean delete(IProduct product, String catalogName) {
-		return this._xmlDAO.supprimer(product);
+		return this._xmlDAO.delete(product, catalogName);
 	}
 }
