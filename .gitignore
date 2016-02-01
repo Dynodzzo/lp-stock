@@ -1,5 +1,4 @@
 .idea
 *.iml
 out
-db
 src/fr/acpi/stock/DBData.java
