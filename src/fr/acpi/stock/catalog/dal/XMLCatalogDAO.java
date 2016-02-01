@@ -1,10 +1,12 @@
 package fr.acpi.stock.catalog.dal;
 
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.acpi.stock.catalog.dal.ICatalogDAO;
+
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -12,9 +14,11 @@ import org.jdom.output.XMLOutputter;
 
 import fr.acpi.stock.catalog.Catalog;
 import fr.acpi.stock.catalog.ICatalog;
+import fr.acpi.stock.product.IProduct;
+import fr.acpi.stock.product.Product;
 
 public class XMLCatalogDAO implements ICatalogDAO {
-	private String uri = "db/xml/Catalogs.xml";
+	private String uri = "/home/moiii/public_html/lp-stock/trunk/db/xml/Catalogs.xml"; // db/xml/Catalogs.xml"; 
 	private Document doc;
 	
 	public XMLCatalogDAO() {
@@ -59,7 +63,11 @@ public class XMLCatalogDAO implements ICatalogDAO {
 
 	@Override
 	public ICatalog get(String name) {
-		return null;
+		Element e = searchCatalog(name);
+		if (e != null)
+			return new Catalog(e.getAttributeValue("name"));
+		else
+			return null;
 	}
 
 	@Override
@@ -70,9 +78,10 @@ public class XMLCatalogDAO implements ICatalogDAO {
 			List<Element> listElementCatalog = root.getChildren("catalog");
 
 			for (Element catalog : listElementCatalog) {
-				int id = Integer.parseInt(catalog.getAttributeValue("id"));
-				String name = catalog.getChildText("name");
+//				int id = Integer.parseInt(catalog.getAttributeValue("id"));
+				String name = catalog.getChild("name").getText();
 				listCatalog.add(new Catalog(name));
+//				System.out.println(catalog.getChild("name").getText());
 			}
 		} catch (Exception e) {
 			System.out.println("erreur getAll tous les catalogues");
@@ -82,7 +91,25 @@ public class XMLCatalogDAO implements ICatalogDAO {
 
 	@Override
 	public int products(ICatalog catalog) {
-		return 0;
+		int productsNb = 0;
+		try {
+			Element root = doc.getRootElement();
+			
+			List<Element> listElementCatalog = root.getChildren("catalog");
+			for (Element elemCatalog : listElementCatalog) {
+				if (elemCatalog.getChild("name").getText() == catalog.name()) {
+				
+					List<Element> listElementProduct = elemCatalog.getChildren("product");
+					for (Element elemProduct : listElementProduct) {
+						productsNb++;
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("erreur getAll tous les catalogues");
+		}
+
+		return productsNb;
 	}
 
 	private boolean sauvegarde() {

@@ -1,8 +1,13 @@
 package fr.acpi.stock.product.dal;
 
 import fr.acpi.stock.product.IProduct;
+import fr.acpi.stock.product.Product;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.jdom.Element;
 
 public class XMLProductDAO implements IProductDAO {
 	private ProduitDAO_XML _xmlDAO;
@@ -16,9 +21,14 @@ public class XMLProductDAO implements IProductDAO {
 		return this._xmlDAO.lire(name);
 	}
 
+	
+	public List<IProduct> getAll() {
+		return this._xmlDAO.lireTous();
+	}
+	
 	@Override
 	public List<IProduct> getAll(String catalogName) {
-		return this._xmlDAO.lireTous();
+		return this._xmlDAO.getAll(catalogName);
 	}
 
 	@Override

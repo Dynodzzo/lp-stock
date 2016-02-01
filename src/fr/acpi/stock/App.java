@@ -12,7 +12,7 @@ import javax.swing.*;
 public class App {
 
     public static void main(String[] args) {
-		DAOFactory daoFactory = DAOFactory.get(DAOFactoryType.Oracle);
+		DAOFactory daoFactory = DAOFactory.get(DAOFactoryType.XML);
 		ICatalogDAO catalogDAO = daoFactory.catalogDAO();
 		IProductDAO productDAO = daoFactory.productDAO();
 		CatalogController catalogCtrl = new CatalogController(AppData.Catalogs, catalogDAO, productDAO);
