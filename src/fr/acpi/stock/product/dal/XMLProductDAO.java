@@ -1,8 +1,13 @@
 package fr.acpi.stock.product.dal;
 
 import fr.acpi.stock.product.IProduct;
+import fr.acpi.stock.product.Product;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.jdom.Element;
 
 public class XMLProductDAO implements IProductDAO {
 	private ProduitDAO_XML _xmlDAO;
@@ -16,23 +21,40 @@ public class XMLProductDAO implements IProductDAO {
 		return this._xmlDAO.lire(name);
 	}
 
-	@Override
-	public List<IProduct> getAll(String catalogName) {
+	
+	public List<IProduct> getAll() {
 		return this._xmlDAO.lireTous();
 	}
-
+	
 	@Override
-	public boolean create(IProduct product, String catalogName) {
+	public List<IProduct> getAll(String catalogName) {
+		return this._xmlDAO.getAll(catalogName);
+	}
+	
+	public boolean create(IProduct product) {
 		return this._xmlDAO.creer(product);
 	}
 
 	@Override
-	public boolean update(IProduct product, String catalogName) {
-		return this._xmlDAO.maj(product);
+	public boolean create(IProduct product, String catalogName) {
+		return this._xmlDAO.create(product, catalogName);
 	}
 
+	public boolean update(IProduct product) {
+		return this._xmlDAO.maj(product);
+	}
+	
+	@Override
+	public boolean update(IProduct product, String catalogName) {
+		return this._xmlDAO.update(product, catalogName);
+	}
+
+	public boolean delete(IProduct product) {
+		return this._xmlDAO.supprimer(product);
+	}
+	
 	@Override
 	public boolean delete(IProduct product, String catalogName) {
-		return this._xmlDAO.supprimer(product);
+		return this._xmlDAO.delete(product, catalogName);
 	}
 }

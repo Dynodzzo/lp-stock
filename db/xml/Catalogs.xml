@@ -1,8 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<listCatalogs>
-    <Catalog id="1">
-			<name>
-				Biscuit
-			</name>
-    </Catalog>
-</listCatalogs>
+<Catalogs>
+    <catalog>
+			<name>Biscuit</name>
+			<product name="Mars">
+        <unitPriceET>4.0</unitPriceET>
+        <amount>12</amount>
+	    </product>
+  	  <product name="Bounty">
+        <unitPriceET>8.0</unitPriceET>
+        <amount>7</amount>
+  	  </product>
+    </catalog>
+
+		<catalog>
+			<name>Chocolat</name>
+			<product name="Cristaline">
+        <unitPriceET>7.5</unitPriceET>
+        <amount>3</amount>
+		  </product>
+		  <product name="Raider">
+		      <unitPriceET>5.5</unitPriceET>
+		      <amount>7</amount>
+		  </product>
+		  <product name="Treets">
+		      <unitPriceET>3.6</unitPriceET>
+		      <amount>23</amount>
+		  </product>
+    </catalog>
+
+		<catalog>
+			<name>chocolato</name>
+			<product name="choco">
+				<unitPriceET>2.0</unitPriceET>
+				<amount>2</amount>
+			</product>
+			<product name="poisson">
+				<unitPriceET>5.2</unitPriceET>
+				<amount>6</amount>
+			</product>
+			<product name="agneau">
+				<unitPriceET>5.6</unitPriceET>
+				<amount>135</amount>
+			</product>
+		</catalog>
+</Catalogs>
