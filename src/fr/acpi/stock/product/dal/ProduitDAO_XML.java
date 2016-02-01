@@ -42,6 +42,62 @@ public class ProduitDAO_XML {
 			return false;
 		}
 	}
+
+	public boolean maj(IProduct p) {
+		try {
+			Element prod = chercheProduit(p.name());
+			if (prod != null) {
+				prod.getChild("amount").setText(String.valueOf(p.amount()));
+				return sauvegarde();
+			} else
+				return false;
+		} catch (Exception e) {
+			System.out.println("erreur maj produit");
+			return false;
+		}
+	}
+	
+	public IProduct lire(String nom) {
+		Element e = chercheProduit(nom);
+		if (e != null)
+			return new Product(e.getAttributeValue("name"), Double.parseDouble(e.getChildText("unitPriceET")), Integer.parseInt(e.getChildText("amount")));
+		else
+			return null;
+	}
+
+	public List<IProduct> lireTous() {
+
+		List<IProduct> l = new ArrayList<>();
+		try {
+			Element root = doc.getRootElement();
+			List<Element> lProd = root.getChildren("product");
+
+			for (Element prod : lProd) {
+				String nomP = prod.getAttributeValue("name");
+				Double prix = Double.parseDouble(prod.getChild("unitPriceET").getText());
+				int qte = Integer.parseInt(prod.getChild("amount").getText());
+				l.add(new Product(nomP, prix, qte));
+			}
+		} catch (Exception e) {
+			System.out.println("erreur lireTous tous les produits");
+		}
+		return l;
+	}
+
+	public boolean supprimer(IProduct p) {
+		try {
+			Element root = doc.getRootElement();
+			Element prod = chercheProduit(p.name());
+			if (prod != null) {
+				root.removeContent(prod);
+				return sauvegarde();
+			} else
+				return false;
+		} catch (Exception e) {
+			System.out.println("erreur supprimer produit");
+			return false;
+		}
+	}
 	
 	public boolean create(IProduct product, String catalogName) {
 		try {
@@ -65,21 +121,32 @@ public class ProduitDAO_XML {
 			return false;
 		}
 	}
-
-	public boolean maj(IProduct p) {
-		try {
-			Element prod = chercheProduit(p.name());
-			if (prod != null) {
-				prod.getChild("amount").setText(String.valueOf(p.amount()));
-				return sauvegarde();
-			} else
-				return false;
-		} catch (Exception e) {
-			System.out.println("erreur maj produit");
-			return false;
-		}
-	}
 	
+	public List<IProduct> getAll(String catalogName) {
+		List<IProduct> listProducts = new ArrayList<>();
+		try {
+			Element root = doc.getRootElement();
+			
+			List<Element> listElementCatalog = root.getChildren("catalog");
+			for (Element elemCatalog : listElementCatalog) {
+				
+				if(elemCatalog.getChild("name").getText().compareToIgnoreCase(catalogName) == 0) {
+					List<Element> listElementProduct = elemCatalog.getChildren("product");
+					
+					for (Element elemProduct : listElementProduct) {
+						String name = elemProduct.getAttributeValue("name");						
+						Double unitPriceET = Double.parseDouble(elemProduct.getChild("unitPriceET").getText());
+						int amount = Integer.parseInt(elemProduct.getChild("amount").getText());
+						listProducts.add(new Product(name, unitPriceET, amount));					
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("erreur getAll tous les produits");
+		}
+		
+		return listProducts;
+	}
 
 	public boolean update(IProduct product, String catalogName) {
 		boolean result = false;
@@ -108,22 +175,6 @@ public class ProduitDAO_XML {
 		}
 	}
 
-	public boolean supprimer(IProduct p) {
-		try {
-			Element root = doc.getRootElement();
-			Element prod = chercheProduit(p.name());
-			if (prod != null) {
-				root.removeContent(prod);
-				return sauvegarde();
-			} else
-				return false;
-		} catch (Exception e) {
-			System.out.println("erreur supprimer produit");
-			return false;
-		}
-	}
-	
-
 	public boolean delete(IProduct product, String catalogName) {
 		boolean result = false;
 		try {
@@ -137,7 +188,7 @@ public class ProduitDAO_XML {
 					
 					for (Element elemProduct : listElementProduct) {
 						if(elemProduct.getAttributeValue("name").compareToIgnoreCase(product.name()) == 0) {
-							elemProduct.removeContent(elemProduct);
+							elemCatalog.removeContent(elemProduct);
 							result = sauvegarde();
 						}
 					}
@@ -149,59 +200,6 @@ public class ProduitDAO_XML {
 			System.out.println("erreur delete produit :"+product.name() +" du catalog :"+catalogName);
 			return false;
 		}
-	}
-
-	public IProduct lire(String nom) {
-		Element e = chercheProduit(nom);
-		if (e != null)
-			return new Product(e.getAttributeValue("name"), Double.parseDouble(e.getChildText("unitPriceET")), Integer.parseInt(e.getChildText("amount")));
-		else
-			return null;
-	}
-
-	public List<IProduct> lireTous() {
-
-		List<IProduct> l = new ArrayList<>();
-		try {
-			Element root = doc.getRootElement();
-			List<Element> lProd = root.getChildren("product");
-
-			for (Element prod : lProd) {
-				String nomP = prod.getAttributeValue("name");
-				Double prix = Double.parseDouble(prod.getChild("unitPriceET").getText());
-				int qte = Integer.parseInt(prod.getChild("amount").getText());
-				l.add(new Product(nomP, prix, qte));
-			}
-		} catch (Exception e) {
-			System.out.println("erreur lireTous tous les produits");
-		}
-		return l;
-	}
-	
-	public List<IProduct> getAll(String catalogName) {
-		List<IProduct> listProducts = new ArrayList<>();
-		try {
-			Element root = doc.getRootElement();
-			
-			List<Element> listElementCatalog = root.getChildren("catalog");
-			for (Element elemCatalog : listElementCatalog) {
-				
-				if(elemCatalog.getChild("name").getText().compareToIgnoreCase(catalogName) == 0) {
-					List<Element> listElementProduct = elemCatalog.getChildren("product");
-					
-					for (Element elemProduct : listElementProduct) {
-						String name = elemProduct.getAttributeValue("name");						
-						Double unitPriceET = Double.parseDouble(elemProduct.getChild("unitPriceET").getText());
-						int amount = Integer.parseInt(elemProduct.getChild("amount").getText());
-						listProducts.add(new Product(name, unitPriceET, amount));					
-					}
-				}
-			}
-		} catch (Exception e) {
-			System.out.println("erreur getAll tous les produits");
-		}
-		
-		return listProducts;
 	}
 
 	private boolean sauvegarde() {
